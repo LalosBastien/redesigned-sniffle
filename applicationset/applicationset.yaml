@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: app-generator
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      # Source cluster
+      - cluster: in-cluster
+        env: source
+        app: namespaces
+        namespace: namespaces
+      - cluster: in-cluster
+        env: source
+        app: vault
+        namespace: vault
+  template:
+    metadata:
+      name: '{{env}}-{{app}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/LalosBastien/redesigned-sniffle.git
+        targetRevision: main
+        path: 'apps/{{app}}'
+      destination:
+        name: '{{cluster}}'
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
