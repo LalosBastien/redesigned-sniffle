@@ -23,7 +23,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/LalosBastien/redesigned-sniffle.git
-        targetRevision: main
+        targetRevision: master
         path: 'apps/{{app}}'
       destination:
         name: '{{cluster}}'
